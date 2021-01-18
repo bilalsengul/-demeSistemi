@@ -2,46 +2,94 @@
 @model OdemeSistemi.Models.LoginModel
 @{
     ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
-<h2>Login</h2>
-
-
-@using (Html.BeginForm())
-{
-
-
-    <div class="form-horizontal">
-        <h4>Abone</h4>
-        <hr />
-        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.KullaniciAdi, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.KullaniciAdi, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.KullaniciAdi, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Sifre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Sifre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Sifre, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
 
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Odeme Sistemi</title>
+    <link href="~/Content/css/style.css" rel='stylesheet' type='text/css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text.css' />
+
+    
+</head>
+<body style="color:whitesmoke;">
+
+    <div class="login-form">
+        <h1>Abone Girişi</h1>
+        <br />
+        <form method="post">
+            @using (Html.BeginForm())
+            {
+
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                <span>
+                    @*<input type="text" class="user" value="Kullanıcı Adı" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}">*@
+
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.KullaniciAdi, new { htmlAttributes = new { @class = "form-control" ,@placeholder="Kullanıcı Adı"} })
+                        @Html.ValidationMessageFor(model => model.KullaniciAdi, "", new { @class = "text-danger" })
+                    </div>
+
+                </span>
+                <span>
+                    @*<input type="password" class="lock" value="Şifre" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">*@
+
+
+                    
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Sifre, new { htmlAttributes = new { @class = "form-control", @placeholder = "Kullanıcı Adı" , @type = "password" } })
+                            @Html.ValidationMessageFor(model => model.Sifre, "", new { @class = "text-danger" })
+                        </div>
+                
+                </span>
+                <div class="submit">
+                    <input type="submit" onclick="myFunction()" value="Giriş Yap" / >
+                </div>
+
+
+                <span class="forget-pass">
+                    <a href="@Url.Action("GiseLogin","Account")" style=" font-weight: bold; font-size: large;"><b>Yetkili Girişi için tıklayın...</b></a>
+                </span>
+                <div class="clear"> </div>
+
+            }
+
+            <!--  <div class="Remember-me">
+            <span class="col_checkbox">
+                <input id="10" class="css-checkbox10" type="checkbox">
+                <a href="#">Beni Hatırla !</a>
+            </span>-->
+
+    </div>
+
+    </form>
+
+    </div>
+
+
+</body>
+</html>

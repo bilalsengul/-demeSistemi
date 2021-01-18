@@ -117,7 +117,7 @@ namespace OdemeSistemi.Controllers
             }
             return View(model);
         }
-
+        
         public ActionResult Logout()
         {
             Session["CurrentAbone"] = null;
