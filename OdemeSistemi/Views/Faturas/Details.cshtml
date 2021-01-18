@@ -1,0 +1,50 @@
+﻿@model OdemeSistemi.Models.Fatura
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Fatura</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Abone.Ad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Abone.Ad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tutar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tutar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tarih)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tarih)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OdemeDurum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OdemeDurum)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
