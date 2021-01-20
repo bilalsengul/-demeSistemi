@@ -134,6 +134,7 @@
     <Compile Include="Models\Gise.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +163,8 @@
     <Content Include="Views\Abones\Edit.cshtml" />
     <Content Include="Views\Abones\Index.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
+    <Content Include="Views\Abones\Search.cshtml" />
+    <Content Include="Views\Faturas\Faturalar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<OdemeSistemi.Models.Fatura>
+
+@{
+    ViewBag.Title = "Faturalar";
+}
+
+<h2>Faturalar</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Abone.Ad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tutar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tarih)
+        </th>
+        
+        <th>
+            @Html.Label("Ödenme Durumu")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Tutar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tarih)
+        </td>
+      
+        <td>
+            @if (item.OdemeDurum == true)
+            {
+                @Html.Label("Ödendi !", new { @class = "alert alert-success" })
+            }
+            else
+            {
+                @Html.Label("Ödenmedi !", new { @class = "alert alert-danger" })
+            }
+        </td>
+        <td>
+            @if (item.OdemeDurum == false)
+            {
+                @Html.ActionLink("Öde", "Ode", new { faturaId = item.Id, aboneId=item.AboneId },new { @class = "btn btn-danger"}) 
+            }          
+        </td>
+    </tr>
+}
+
+</table>

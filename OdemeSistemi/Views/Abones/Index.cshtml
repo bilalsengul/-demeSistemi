@@ -5,14 +5,25 @@
 }
 
 <h2>Index</h2>
-
+@if (ViewBag.error!= null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.error");
+            };
+    </script>
+    Session["hata"] = null;
+}
 <p>
     @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Abone Ara", "Search", null, new { @class = "btn btn-primary " })
+
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Gise.KullaniciAdi)
+            @*@Html.DisplayNameFor("Gise Adı")*@
+            @Html.Label("Gise Adı")
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Ad)
@@ -41,41 +52,44 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gise.KullaniciAdi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Soyad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Numara)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tur)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Depozito)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Borc)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.KullaniciAdi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Sifre)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gise.KullaniciAdi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Soyad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Numara)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tur)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Depozito)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Borc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KullaniciAdi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sifre)
+            </td>
+            <td>
+                <a href=" @Url.Action("faturalar","faturas", new { id = item.Id })">Faturaları Öde</a>
+               
+                @*@Html.ActionLink("Faturaları Öde", "Faturalar", "Faturas",null, new { id = item.Id }) |*@
+
+                @Html.ActionLink("Aboneyi Sil ! ", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>

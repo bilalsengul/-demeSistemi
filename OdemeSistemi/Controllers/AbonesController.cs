@@ -12,13 +12,20 @@ namespace OdemeSistemi.Controllers
 {
     public class AbonesController : Controller
     {
-        private ContextDb db = new ContextDb();
-
+        private ContextDb db;
+       // private string[] hata;
+        public AbonesController()
+        {
+            db = new ContextDb();
+          //  hata = new string[1];
+        }
         // GET: Abones
         public ActionResult Index()
         {
             if (Session["CurrentAbone"] == null && Session["CurrentGise"] != null)
             {
+                if (Session["hata"] != null)
+                    ViewBag.error = Session["hata"];
                 //bu kontrol sadece gise görebilir
                 var abones = db.Abones.Include(a => a.Gise);
                 return View(abones.ToList());
@@ -50,7 +57,7 @@ namespace OdemeSistemi.Controllers
                 ViewBag.GiseId = new SelectList(db.Gises, "Id", "KullaniciAdi");
                 return View();
             }
-           
+
             return View(@"~/Views/Home/Error.cshtml");
         }
 
@@ -105,7 +112,10 @@ namespace OdemeSistemi.Controllers
             return View(abone);
         }
 
-        // GET: Abones/Delete/5
+        
+
+        // POST: Abones/Delete/5
+        [HttpGet]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -117,19 +127,80 @@ namespace OdemeSistemi.Controllers
             {
                 return HttpNotFound();
             }
-            return View(abone);
+            abone.Faturalar = db.Faturas.Where(i=>i.AboneId==abone.Id).ToList();
+            if (abone.Faturalar != null)
+            {
+                int borc = abone.Borc;
+                foreach (var item in abone.Faturalar)
+                {
+                    if (item.OdemeDurum == false && item.Tarih < DateTime.Now)
+                    {
+                        borc += item.Tutar;
+                    }
+                }
+
+                if(abone.Depozito>=borc)
+                {
+                    abone.Depozito=abone.Depozito - borc;
+                    foreach (var fatura in db.Faturas.Where(i => i.AboneId == abone.Id).ToList())
+                    {
+                        db.Faturas.Remove(fatura);
+                    }
+
+                    db.Abones.Remove(abone);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            
+           Session["hata"] ="Depozito miktarı borcunuzu odeyecek tutarda degil !";
+         
+           return RedirectToAction("Index");
         }
 
-        // POST: Abones/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        [HttpGet]
+        public ActionResult Search()
         {
-            Abone abone = db.Abones.Find(id);
-            db.Abones.Remove(abone);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            return View();
         }
+
+        [HttpPost]
+        public ActionResult Search(SearchModel model)
+        {
+            if (model.tc != null)
+            {
+                if (model.tc == null || model.tc.Equals(""))
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var abone = db.Abones.FirstOrDefault(i => i.Numara == model.tc);
+                if (abone != null)
+                {
+                    return View(abone);
+                }
+                ViewBag.error = "TC numaralı abone bulunumadı ! ";
+            }
+            else if (model.vergi != null)
+            {
+
+                if (model.vergi == null || model.vergi.Equals(""))
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var abone = db.Abones.FirstOrDefault(i => i.Numara == model.vergi);
+                if (abone != null)
+                {
+                    return View(abone);
+                }
+                ViewBag.error = "Vergi numaralı abone bulunumadı ! ";
+            }
+           
+            return View();
+        }
+
+        
 
         protected override void Dispose(bool disposing)
         {

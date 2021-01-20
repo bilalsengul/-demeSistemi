@@ -120,6 +120,41 @@ namespace OdemeSistemi.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Ode(int faturaId,int aboneId)
+        {
+            if (faturaId == null&&aboneId==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var fatura = db.Faturas.FirstOrDefault(i => i.Id == faturaId);
+            if (fatura == null)
+            {
+                return HttpNotFound();
+            }
+
+            fatura.OdemeDurum = true;
+            db.SaveChanges();
+            var faturalar = db.Faturas.Where(i => i.AboneId == aboneId).OrderBy(i => i.Tarih).ToList();
+            //int id = aboneId;
+            //return RedirectToAction("Faturalar", id);
+            return View("Faturalar", faturalar);
+        }
+
+        [HttpGet]
+        public ActionResult Faturalar(int id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var faturalar = db.Faturas.Where(i => i.AboneId == id).OrderBy(i=>i.Tarih).ToList();
+            if (faturalar == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(faturalar);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
