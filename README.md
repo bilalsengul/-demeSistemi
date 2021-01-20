@@ -5,5 +5,4 @@ Giriş İşlemleri
 Admin 
 Kullanıcı Adı:gise
 Şifre:gise
-![ScreenShot](Image/AboneSil.png
-)
+[![]](Image/UseCase)
