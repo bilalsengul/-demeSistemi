@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<OdemeSistemi.Models.Abone>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Gise İslemleri";
 }
 
-<h2>Index</h2>
-@if (ViewBag.error!= null)
+<h2>Gişe İşlemleri</h2>
+@if (ViewBag.error != null)
 {
     <script type="text/javascript">
             window.onload = function () {
@@ -14,8 +14,19 @@
     </script>
     Session["hata"] = null;
 }
+@if (TempData["iade"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            /**/
+            alert("@TempData["iade"]");
+        /**/
+    };
+    </script>
+    TempData["iade"] = null;
+}
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Abone Ekle", "Create", null, new { @class = "btn btn-primary " })
     @Html.ActionLink("Abone Ara", "Search", null, new { @class = "btn btn-primary " })
 
 </p>
@@ -35,7 +46,7 @@
             @Html.DisplayNameFor(model => model.Numara)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Tur)
+            @Html.Label("Kullanıcı Türü")
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Depozito)
@@ -68,7 +79,15 @@
                 @Html.DisplayFor(modelItem => item.Numara)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Tur)
+
+                @if (item.Tur == true)
+                {
+                    @Html.Label("Bireysel kullanıcı")
+                }
+                else
+                {
+                    @Html.Label("Tuzel kullanıcı")
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Depozito)
@@ -83,11 +102,11 @@
                 @Html.DisplayFor(modelItem => item.Sifre)
             </td>
             <td>
-                <a href=" @Url.Action("faturalar","faturas", new { id = item.Id })">Faturaları Öde</a>
-               
+                <a href=" @Url.Action("faturalar","faturas", new { id = item.Id })" class="btn btn-success">Faturaları Öde</a>
+
                 @*@Html.ActionLink("Faturaları Öde", "Faturalar", "Faturas",null, new { id = item.Id }) |*@
 
-                @Html.ActionLink("Aboneyi Sil ! ", "Delete", new { id = item.Id })
+                @Html.ActionLink("Aboneyi Sil ! ", "Delete", new { id = item.Id }, new { @class = "btn btn-danger " })
             </td>
         </tr>
     }

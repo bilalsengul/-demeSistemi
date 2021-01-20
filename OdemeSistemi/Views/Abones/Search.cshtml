@@ -1,15 +1,15 @@
 ﻿@model OdemeSistemi.Models.Abone
 @{
-    ViewBag.Title = "tcSearch";
+    ViewBag.Title = "Abone Sorgulama";
 }
 
-<h2>tcSearch</h2>
+<h2>Abone Sorgulama</h2>
 
 
 <form action="@Url.Action("Search","Abones")" method="post">
-    <input type="text" name="tc" placeholder="Tc Numarasını Giriniz." />
-    <input type="text" name="vergi" placeholder="Vergi Numarasını Giriniz." />
-    <input type="submit" value="Ara" />
+    <input type="text" name="tc" placeholder="Tc Numarası Giriniz." class="input-group mb-3" /><br />
+    <input type="text" name="vergi" placeholder="Vergi Numarası Giriniz."class="input-group mb-3" /><br />
+    <input type="submit" value="Ara" class="btn btn-primary"/>
 </form>
 
 @ViewBag.eror

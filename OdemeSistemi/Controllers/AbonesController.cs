@@ -139,7 +139,7 @@ namespace OdemeSistemi.Controllers
                     }
                 }
 
-                if(abone.Depozito>=borc)
+                if(abone.Depozito ==borc)
                 {
                     abone.Depozito=abone.Depozito - borc;
                     foreach (var fatura in db.Faturas.Where(i => i.AboneId == abone.Id).ToList())
@@ -150,6 +150,21 @@ namespace OdemeSistemi.Controllers
                     db.Abones.Remove(abone);
                     db.SaveChanges();
                     return RedirectToAction("Index");
+                }
+                else if (abone.Depozito > borc)
+                {
+                    abone.Depozito = abone.Depozito - borc;
+                    foreach (var fatura in db.Faturas.Where(i => i.AboneId == abone.Id).ToList())
+                    {
+                        db.Faturas.Remove(fatura);
+                    }
+                    //ViewBag.iade = "İade edilecek tutar : " + abone.Depozito;
+                    TempData["iade"] = "İade edilecek tutar : " + abone.Depozito;
+                    db.Abones.Remove(abone);
+                    db.SaveChanges();
+                  
+                    return RedirectToAction("Index");
+                    
                 }
             }
             
